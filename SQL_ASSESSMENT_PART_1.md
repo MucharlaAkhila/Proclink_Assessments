@@ -1,49 +1,114 @@
-### SQL Assessment Instructions
+```sql
+CREATE TABLE Customers(
+    Customer_id INT PRIMARY KEY,
+    FirstName VARCHAR(255),
+	LastName VARCHAR(255),
+	Email VARCHAR(255),
+	Phone VARCHAR(255),
+    Customers_Address VARCHAR(255),
+	Num_Orders INT
+);
 
-**Assessment Overview:**
-This assessment is designed to evaluate your proficiency in SQL through practical tasks encompassing data manipulation, query formulation, and complex joins and subqueries. The questions are based on a fictional company named "TechShop," which sells electronic gadgets. TechShop maintains data related to their products, customers, and orders. Ensure to create your own data for testing your queries.
 
-**Database Tables:**
+INSERT INTO Customers(Customer_id,FirstName,LastName,Email ,Phone ,Customers_Address,Num_Orders) VALUES
+(1,	'John','Doe','johndoe@gmail.com','9999999999','New York',0),
+(2,'Jane','Smith','janesmith@gmail.com','8888888888','Paris',0),
+(3,'Alice','Johnson','alicejohn@gmail.com','9876543210','London',0),
+(4,'Cris','Thommas','thommascris@gmail.com','7685493934','New York',0)
 
-1. **Customers:**
 
-   - `CustomerID` (Primary Key)
-   - `FirstName`
-   - `LastName`
-   - `Email`
-   - `Phone`
-   - `Address`
+Select * from Customers
 
-2. **Products:**
+-----------------------------------------------------------------------------------------
 
-   - `ProductID` (Primary Key)
-   - `ProductName`
-   - `Description`
-   - `Price`
 
-3. **Orders:**
+CREATE TABLE Products(
+    Products_id INT PRIMARY KEY,
+    Products_name VARCHAR(255),
+    Products_description VARCHAR(255),
+	Products_price decimal(10,2),
+);
 
-   - `OrderID` (Primary Key)
-   - `CustomerID` (Foreign Key referencing Customers)
-   - `OrderDate`
-   - `TotalAmount`
 
-4. **OrderDetails:**
+INSERT INTO Products (Products_id,Products_name,Products_description,Products_price) VALUES
+(101, 'Laptop', 'An electronic device with High-performance & SSD storage', 999),
+(102, 'Smartphone', 'An electronic device with OLED display', 699),
+(103, 'Tablet', 'An electronic tablet with long battery life', 399);
 
-   - `OrderDetailID` (Primary Key)
-   - `OrderID` (Foreign Key referencing Orders)
-   - `ProductID` (Foreign Key referencing Products)
-   - `Quantity`
 
-5. **Inventory:**
-   - `InventoryID` (Primary Key)
-   - `ProductID` (Foreign Key referencing Products)
-   - `QuantityInStock`
-   - `LastStockUpdate`
+Select * from Products
+
+
+--------------------------------------------------------------------------------------------------------
+
+
+CREATE TABLE Orders(
+    Order_id INT PRIMARY KEY,
+	Customer_id INT,
+    Order_date DateTime,
+    Total_amount Decimal(10,2),
+	FOREIGN KEY (Customer_id) REFERENCES Customers(Customer_id),
+);
+
+
+INSERT INTO Orders (Order_id,Customer_id,Order_date,Total_amount) VALUES
+(1001,3,'2022-01-15 14:33:00',399),
+(1002,1,'2023-03-22 10:45:00',1998),
+(1003,2,'2023-04-12 10:45:00',999),
+(1004,4,'2024-05-17 09:20:00',699)
+
+
+Select * from Orders
+
+-------------------------------------------------------------------------------------
+
+
+CREATE TABLE OrderDetails(
+    OrderDetail_id INT PRIMARY KEY,
+	Order_id INT,
+	Products_id INT,
+    Quantity INT ,
+	FOREIGN KEY (Order_id) REFERENCES Orders(Order_id),
+	FOREIGN KEY (Products_id) REFERENCES Products(Products_id),
+);
+
+INSERT INTO OrderDetails (OrderDetail_id,Order_id,Products_id,Quantity) VALUES
+(2001,1001,103,1),
+(2002,1002,101,2),
+(2003,1003,101,1),
+(2004,1004,102,1)
+
+
+Select * from OrderDetails
+
+---------------------------------------------------------------------------------------
+
+
+CREATE TABLE Inventory(
+    Inventory_id INT PRIMARY KEY,
+	Products_id INT,
+    QuantityInStock INT,
+    LastStockUpdate TIMESTAMP,
+	FOREIGN KEY (Products_id) REFERENCES Products(Products_id),
+);
+
+INSERT INTO Inventory (Inventory_id, Products_id, QuantityInStock, LastStockUpdate)
+VALUES
+    (1, 101, 10, DEFAULT),
+    (2, 102, 15, DEFAULT),
+    (3, 103, 20, DEFAULT);
+
+Select * from Inventory
+
+```
 
 **Questions:**
 
 1. Write an SQL query to retrieve the names and emails of all customers.
+
+```sql
+
+```
 
 ![1](image.png)
 
